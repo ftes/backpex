@@ -1,6 +1,5 @@
 defmodule DemoWeb.Browser.FilmReviewBrowserTest do
-  use PhoenixTest.Playwright.Case, async: false
-  use DemoWeb, :verified_routes
+  use DemoWeb.CerberusCase, async: true
   use DemoWeb.A11yAssertions
 
   import Demo.EctoFactory
@@ -8,38 +7,43 @@ defmodule DemoWeb.Browser.FilmReviewBrowserTest do
   @moduletag :playwright
 
   describe "film-reviews index" do
-    test "a11y", %{conn: conn} do
+    test "a11y" do
       insert_list(10, :film_review)
+      session = start_browser_session()
 
-      conn
+      session
       |> visit(~p"/admin/film-reviews")
       |> assert_a11y()
     end
   end
 
   describe "film-reviews show" do
-    test "a11y", %{conn: conn} do
+    test "a11y" do
       film_review = insert(:film_review)
+      session = start_browser_session()
 
-      conn
+      session
       |> visit(~p"/admin/film-reviews/#{film_review.id}/show")
       |> assert_a11y()
     end
   end
 
   describe "film-reviews edit" do
-    test "a11y", %{conn: conn} do
+    test "a11y" do
       film_review = insert(:film_review)
+      session = start_browser_session()
 
-      conn
+      session
       |> visit(~p"/admin/film-reviews/#{film_review.id}/edit")
       |> assert_a11y()
     end
   end
 
   describe "film-reviews new" do
-    test "a11y", %{conn: conn} do
-      conn
+    test "a11y" do
+      session = start_browser_session()
+
+      session
       |> visit(~p"/admin/film-reviews/new")
       |> assert_a11y()
     end

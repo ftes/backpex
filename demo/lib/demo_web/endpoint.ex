@@ -19,6 +19,12 @@ defmodule DemoWeb.Endpoint do
       connect_info: [:peer_data, :uri, :user_agent, session: @session_options]
     ]
 
+  if Code.ensure_loaded?(Cerberus.Sandbox) do
+    plug Phoenix.Ecto.SQL.Sandbox,
+      header: Cerberus.Sandbox.header(),
+      sandbox: Cerberus.Sandbox.allowance()
+  end
+
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phx.digest
