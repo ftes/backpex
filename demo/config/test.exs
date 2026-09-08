@@ -1,5 +1,8 @@
 import Config
 
+config :demo, Demo.Repo, pool: Ecto.Adapters.SQL.Sandbox
+config :demo, DemoWeb.Endpoint, server: true
+
 config :fluffy, Fluffy.Sandbox, header: "user-agent"
 
 config :fluffy,
@@ -12,9 +15,6 @@ config :fluffy,
     launch_options: [headless: true],
     artifact_dir: System.get_env("FLUFFY_ARTIFACT_DIR")
   ]
-
-config :demo, Demo.Repo, pool: Ecto.Adapters.SQL.Sandbox
-config :demo, DemoWeb.Endpoint, server: true
 
 config :phoenix, :plug_init_mode, :runtime
 

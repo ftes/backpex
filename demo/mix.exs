@@ -43,7 +43,7 @@ defmodule Demo.MixProject do
       {:lazy_html, "~> 0.1.3", only: :test},
       {:ex_machina, "~> 2.3"},
       {:faker, "~> 1.2", hex: :fakerer},
-      {:fluffy, "~> 0.1.0", only: :test},
+      {:fluffy, "~> 0.1.1", only: :test},
       {:phoenix_test, "~> 0.12.0", only: :test, runtime: false},
       {:a11y_audit, "~> 0.5.0", only: :test},
       {:live_debugger, "~> 1.0", only: :dev},
