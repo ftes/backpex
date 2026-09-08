@@ -1,5 +1,5 @@
 defmodule DemoWeb.Browser.SidebarBrowserTest do
-  use DemoWeb.CerberusCase, async: false
+  use DemoWeb.FluffyCase, async: false
   use DemoWeb.A11yAssertions
 
   import Demo.EctoFactory
@@ -120,7 +120,7 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
       |> expect(by_css(~s|#{@blog_toggle}[aria-expanded="false"]|) |> Expect.count(1))
       |> assert_a11y()
       |> click(by_css(~s|a[href="/admin/invoices"]|))
-      |> expect(Cerberus.Page.to_have_url("/admin/invoices"))
+      |> expect(Fluffy.Page.to_have_url("/admin/invoices"))
       |> expect(by_css(~s|#{@blog_toggle}[aria-expanded="false"]|) |> Expect.count(1))
     end
   end
@@ -142,10 +142,10 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
       |> expect(by_css(~s|#{@sidebar_toggle}[aria-expanded="false"]|) |> Expect.count(1))
       |> assert_a11y()
       |> then(fn session ->
-        Cerberus.Playwright.evaluate(session, ~s|document.querySelector('a[href="/admin/invoices"]').click()|)
+        Fluffy.Playwright.evaluate(session, ~s|document.querySelector('a[href="/admin/invoices"]').click()|)
         session
       end)
-      |> expect(Cerberus.Page.to_have_url("/admin/invoices"))
+      |> expect(Fluffy.Page.to_have_url("/admin/invoices"))
       |> expect(by_css(~s|#{@sidebar_toggle}[aria-expanded="false"]|) |> Expect.count(1))
     end
   end
@@ -159,7 +159,7 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
       |> expect(by_css("body .phx-connected") |> Expect.count(1))
       |> then(fn session ->
         display =
-          Cerberus.Playwright.evaluate(
+          Fluffy.Playwright.evaluate(
             session,
             """
             (() => {
@@ -188,7 +188,7 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
       end)
       |> then(fn session ->
         display =
-          Cerberus.Playwright.evaluate(
+          Fluffy.Playwright.evaluate(
             session,
             """
             (() => {
@@ -219,11 +219,11 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
       |> visit(~p"/admin/posts")
       |> expect(by_css("body .phx-connected") |> Expect.count(1))
       |> then(fn session ->
-        Cerberus.Playwright.evaluate(session, @install_preference_gate, is_function: true)
+        Fluffy.Playwright.evaluate(session, @install_preference_gate, is_function: true)
         session
       end)
       |> then(fn session ->
-        Cerberus.Playwright.evaluate(
+        Fluffy.Playwright.evaluate(
           session,
           ~s|document.querySelector('[data-section-id="blog"] [data-menu-dropdown-toggle]').click()|
         )
@@ -232,7 +232,7 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
       end)
       |> then(fn session ->
         gate =
-          Cerberus.Playwright.evaluate(session, @await_preference_calls,
+          Fluffy.Playwright.evaluate(session, @await_preference_calls,
             is_function: true,
             arg: 1
           )
@@ -247,11 +247,11 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
         session
       end)
       |> then(fn session ->
-        Cerberus.Playwright.evaluate(session, ~s|document.querySelector('#backpex-sidebar-toggle').click()|)
+        Fluffy.Playwright.evaluate(session, ~s|document.querySelector('#backpex-sidebar-toggle').click()|)
         session
       end)
       |> then(fn session ->
-        gate = Cerberus.Playwright.evaluate(session, @preference_gate_state, is_function: true)
+        gate = Fluffy.Playwright.evaluate(session, @preference_gate_state, is_function: true)
 
         assert gate["active"] == 1
         assert gate["maxActive"] == 1
@@ -260,12 +260,12 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
         session
       end)
       |> then(fn session ->
-        Cerberus.Playwright.evaluate(session, @release_preference_call, is_function: true, arg: 0)
+        Fluffy.Playwright.evaluate(session, @release_preference_call, is_function: true, arg: 0)
         session
       end)
       |> then(fn session ->
         gate =
-          Cerberus.Playwright.evaluate(session, @await_preference_calls,
+          Fluffy.Playwright.evaluate(session, @await_preference_calls,
             is_function: true,
             arg: 2
           )
@@ -280,17 +280,17 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
         session
       end)
       |> then(fn session ->
-        Cerberus.Playwright.evaluate(session, @release_preference_call, is_function: true, arg: 1)
+        Fluffy.Playwright.evaluate(session, @release_preference_call, is_function: true, arg: 1)
         session
       end)
       |> then(fn session ->
-        gate = Cerberus.Playwright.evaluate(session, @await_preference_gate_settled, is_function: true)
+        gate = Fluffy.Playwright.evaluate(session, @await_preference_gate_settled, is_function: true)
         assert gate == %{"active" => 0, "maxActive" => 1}
 
         session
       end)
       |> then(fn session ->
-        Cerberus.Playwright.evaluate(session, @clear_preference_mirrors, is_function: true)
+        Fluffy.Playwright.evaluate(session, @clear_preference_mirrors, is_function: true)
         session
       end)
       |> visit(~p"/admin/posts")
@@ -306,16 +306,16 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
       |> visit(~p"/admin/posts")
       |> expect(by_css("body .phx-connected") |> Expect.count(1))
       |> then(fn session ->
-        Cerberus.Playwright.evaluate(session, @install_preference_gate, is_function: true)
+        Fluffy.Playwright.evaluate(session, @install_preference_gate, is_function: true)
         session
       end)
       |> then(fn session ->
-        Cerberus.Playwright.evaluate(session, @select_theme, is_function: true, arg: "dark")
+        Fluffy.Playwright.evaluate(session, @select_theme, is_function: true, arg: "dark")
         session
       end)
       |> then(fn session ->
         gate =
-          Cerberus.Playwright.evaluate(session, @await_preference_calls,
+          Fluffy.Playwright.evaluate(session, @await_preference_calls,
             is_function: true,
             arg: 1
           )
@@ -329,11 +329,11 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
         session
       end)
       |> then(fn session ->
-        Cerberus.Playwright.evaluate(session, @select_theme, is_function: true, arg: "cupcake")
+        Fluffy.Playwright.evaluate(session, @select_theme, is_function: true, arg: "cupcake")
         session
       end)
       |> then(fn session ->
-        gate = Cerberus.Playwright.evaluate(session, @preference_gate_state, is_function: true)
+        gate = Fluffy.Playwright.evaluate(session, @preference_gate_state, is_function: true)
 
         assert gate["active"] == 1
         assert gate["maxActive"] == 1
@@ -342,12 +342,12 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
         session
       end)
       |> then(fn session ->
-        Cerberus.Playwright.evaluate(session, @release_preference_call, is_function: true, arg: 0)
+        Fluffy.Playwright.evaluate(session, @release_preference_call, is_function: true, arg: 0)
         session
       end)
       |> then(fn session ->
         gate =
-          Cerberus.Playwright.evaluate(session, @await_preference_calls,
+          Fluffy.Playwright.evaluate(session, @await_preference_calls,
             is_function: true,
             arg: 2
           )
@@ -362,17 +362,17 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
         session
       end)
       |> then(fn session ->
-        Cerberus.Playwright.evaluate(session, @release_preference_call, is_function: true, arg: 1)
+        Fluffy.Playwright.evaluate(session, @release_preference_call, is_function: true, arg: 1)
         session
       end)
       |> then(fn session ->
-        gate = Cerberus.Playwright.evaluate(session, @await_preference_gate_settled, is_function: true)
+        gate = Fluffy.Playwright.evaluate(session, @await_preference_gate_settled, is_function: true)
         assert gate == %{"active" => 0, "maxActive" => 1}
 
         session
       end)
       |> then(fn session ->
-        Cerberus.Playwright.evaluate(session, @clear_preference_mirrors, is_function: true)
+        Fluffy.Playwright.evaluate(session, @clear_preference_mirrors, is_function: true)
         session
       end)
       |> visit(~p"/admin/posts")
@@ -380,7 +380,7 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
       |> expect(by_css(~s|html[data-theme="cupcake"]|) |> Expect.count(1))
       |> then(fn session ->
         checked? =
-          Cerberus.Playwright.evaluate(
+          Fluffy.Playwright.evaluate(
             session,
             ~s|document.querySelector('input[name="theme-selector"][value="cupcake"]').checked|
           )
@@ -415,11 +415,11 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
       |> visit(~p"/admin/posts")
       |> expect(by_css("body .phx-connected") |> Expect.count(1))
       |> then(fn session ->
-        Cerberus.Playwright.evaluate(session, @install_preference_gate, is_function: true)
+        Fluffy.Playwright.evaluate(session, @install_preference_gate, is_function: true)
         session
       end)
       |> then(fn session ->
-        Cerberus.Playwright.evaluate(
+        Fluffy.Playwright.evaluate(
           session,
           """
           () => {
@@ -436,7 +436,7 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
       end)
       |> then(fn session ->
         gate =
-          Cerberus.Playwright.evaluate(session, @await_preference_calls,
+          Fluffy.Playwright.evaluate(session, @await_preference_calls,
             is_function: true,
             arg: 1
           )
@@ -452,12 +452,12 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
         session
       end)
       |> then(fn session ->
-        Cerberus.Playwright.evaluate(session, @release_preference_call, is_function: true, arg: 0)
+        Fluffy.Playwright.evaluate(session, @release_preference_call, is_function: true, arg: 0)
         session
       end)
       |> then(fn session ->
         gate =
-          Cerberus.Playwright.evaluate(session, @await_preference_calls,
+          Fluffy.Playwright.evaluate(session, @await_preference_calls,
             is_function: true,
             arg: 2
           )
@@ -473,17 +473,17 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
         session
       end)
       |> then(fn session ->
-        Cerberus.Playwright.evaluate(session, @release_preference_call, is_function: true, arg: 1)
+        Fluffy.Playwright.evaluate(session, @release_preference_call, is_function: true, arg: 1)
         session
       end)
       |> then(fn session ->
-        gate = Cerberus.Playwright.evaluate(session, @await_preference_gate_settled, is_function: true)
+        gate = Fluffy.Playwright.evaluate(session, @await_preference_gate_settled, is_function: true)
         assert gate == %{"active" => 0, "maxActive" => 1}
 
         session
       end)
       |> then(fn session ->
-        Cerberus.Playwright.evaluate(session, @clear_preference_mirrors, is_function: true)
+        Fluffy.Playwright.evaluate(session, @clear_preference_mirrors, is_function: true)
         session
       end)
       |> visit(~p"/admin/posts")
@@ -556,14 +556,14 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
       |> expect(by_css("body .phx-connected") |> Expect.count(1))
       |> expect(by_css(~s|#{@sidebar_toggle}[aria-expanded="true"]|) |> Expect.count(1))
       |> then(fn session ->
-        Cerberus.Playwright.evaluate(session, @stall_preferences, is_function: true)
+        Fluffy.Playwright.evaluate(session, @stall_preferences, is_function: true)
         session
       end)
       |> click(by_css(@sidebar_toggle))
       |> expect(by_css(~s|#{@sidebar_toggle}[aria-expanded="false"]|) |> Expect.count(1))
       # (a) The write is in the cookie, synchronously, before any round trip.
       |> then(fn session ->
-        cookie = Cerberus.Playwright.evaluate(session, "document.cookie")
+        cookie = Fluffy.Playwright.evaluate(session, "document.cookie")
         entry = cookie |> String.split("; ") |> Enum.find(&String.starts_with?(&1, "backpex_prefs="))
         assert is_binary(entry)
 
@@ -575,7 +575,7 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
       end)
       # (b) THE FLASH ITSELF: the document the browser would paint first.
       |> then(fn session ->
-        html = Cerberus.Playwright.evaluate(session, @fetch_dead_render, is_function: true)
+        html = Fluffy.Playwright.evaluate(session, @fetch_dead_render, is_function: true)
 
         assert html =~ ~s(data-sidebar-open="false")
         refute html =~ ~s(data-sidebar-open="true")
@@ -597,7 +597,7 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
       # (d) The pending entry retires on the replay's response: the cookie holds
       # unacknowledged writes only and cannot shadow the adapter.
       |> then(fn session ->
-        result = Cerberus.Playwright.evaluate(session, @await_cookie_retired, is_function: true)
+        result = Fluffy.Playwright.evaluate(session, @await_cookie_retired, is_function: true)
         assert result == "retired"
         session
       end)
@@ -605,7 +605,7 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
       # different job.
       |> then(fn session ->
         value =
-          Cerberus.Playwright.evaluate(
+          Fluffy.Playwright.evaluate(
             session,
             """
             (() => {

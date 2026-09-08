@@ -4,8 +4,8 @@ defmodule DemoWeb.Router do
   import Backpex.Router
   import Phoenix.LiveDashboard.Router
 
-  @live_session_hooks (if Code.ensure_loaded?(Cerberus.Sandbox) do
-                         [Cerberus.Sandbox, Sentry.LiveViewHook, Backpex.InitAssigns]
+  @live_session_hooks (if Code.ensure_loaded?(Fluffy.Sandbox) do
+                         [Fluffy.Sandbox, Sentry.LiveViewHook, Backpex.InitAssigns]
                        else
                          [Sentry.LiveViewHook, Backpex.InitAssigns]
                        end)

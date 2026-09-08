@@ -1,8 +1,8 @@
 import Config
 
-config :cerberus, Cerberus.Sandbox, header: "user-agent"
+config :fluffy, Fluffy.Sandbox, header: "user-agent"
 
-config :cerberus,
+config :fluffy,
   ecto_repos: [Demo.Repo],
   playwright: [
     enabled: true,
@@ -10,7 +10,7 @@ config :cerberus,
     executable: Path.expand("../node_modules/playwright/cli.js", __DIR__),
     timeout: 15_000,
     launch_options: [headless: true],
-    artifact_dir: System.get_env("CERBERUS_ARTIFACT_DIR")
+    artifact_dir: System.get_env("FLUFFY_ARTIFACT_DIR")
   ]
 
 config :demo, Demo.Repo, pool: Ecto.Adapters.SQL.Sandbox

@@ -1,6 +1,6 @@
-defmodule DemoWeb.CerberusCase do
+defmodule DemoWeb.FluffyCase do
   @moduledoc """
-  Shared sandbox and imports for incremental Cerberus browser migrations.
+  Shared sandbox and imports for incremental Fluffy browser migrations.
 
   Tests deliberately start their own sessions so BrowserContext options and
   lifecycle remain visible at each call site.
@@ -12,19 +12,19 @@ defmodule DemoWeb.CerberusCase do
     quote do
       use DemoWeb, :verified_routes
 
-      import Cerberus
-      import Cerberus.Locator
+      import Fluffy
+      import Fluffy.Locator
 
-      alias Cerberus.Expect
+      alias Fluffy.Expect
 
       def start_browser_session(options \\ []) do
         defaults = [base_url: DemoWeb.Endpoint.url(), endpoint: DemoWeb.Endpoint]
-        Cerberus.start_session(:playwright, Keyword.merge(defaults, options))
+        Fluffy.start_session(:playwright, Keyword.merge(defaults, options))
       end
     end
   end
 
   setup context do
-    Cerberus.Test.setup(context)
+    Fluffy.Test.setup(context)
   end
 end

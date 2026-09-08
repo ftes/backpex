@@ -1,5 +1,5 @@
 defmodule DemoWeb.Browser.ProductBrowserTest do
-  use DemoWeb.CerberusCase, async: true
+  use DemoWeb.FluffyCase, async: true
   use DemoWeb.A11yAssertions
 
   import Demo.EctoFactory

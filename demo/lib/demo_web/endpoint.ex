@@ -19,10 +19,10 @@ defmodule DemoWeb.Endpoint do
       connect_info: [:peer_data, :uri, :user_agent, session: @session_options]
     ]
 
-  if Code.ensure_loaded?(Cerberus.Sandbox) do
+  if Code.ensure_loaded?(Fluffy.Sandbox) do
     plug Phoenix.Ecto.SQL.Sandbox,
-      header: Cerberus.Sandbox.header(),
-      sandbox: Cerberus.Sandbox.allowance()
+      header: Fluffy.Sandbox.header(),
+      sandbox: Fluffy.Sandbox.allowance()
   end
 
   # Serve at "/" the static files from "priv/static" directory.

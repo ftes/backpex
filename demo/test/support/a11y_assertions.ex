@@ -8,9 +8,9 @@ defmodule DemoWeb.A11yAssertions do
     end
   end
 
-  def assert_a11y(%{__struct__: Cerberus.Session} = session) do
-    Cerberus.Playwright.evaluate(session, A11yAudit.JS.axe_core())
-    json = Cerberus.Playwright.evaluate(session, "axe.run()")
+  def assert_a11y(%{__struct__: Fluffy.Session} = session) do
+    Fluffy.Playwright.evaluate(session, A11yAudit.JS.axe_core())
+    json = Fluffy.Playwright.evaluate(session, "axe.run()")
 
     json
     |> A11yAudit.Results.from_json()
