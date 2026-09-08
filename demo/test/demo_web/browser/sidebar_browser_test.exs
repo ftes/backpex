@@ -120,7 +120,7 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
       |> expect(by_css(~s|#{@blog_toggle}[aria-expanded="false"]|) |> Expect.count(1))
       |> assert_a11y()
       |> click(by_css(~s|a[href="/admin/invoices"]|))
-      |> expect(Expect.url("/admin/invoices"))
+      |> expect(Cerberus.Page.to_have_url("/admin/invoices"))
       |> expect(by_css(~s|#{@blog_toggle}[aria-expanded="false"]|) |> Expect.count(1))
     end
   end
@@ -145,7 +145,7 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
         Cerberus.Playwright.evaluate(session, ~s|document.querySelector('a[href="/admin/invoices"]').click()|)
         session
       end)
-      |> expect(Expect.url("/admin/invoices"))
+      |> expect(Cerberus.Page.to_have_url("/admin/invoices"))
       |> expect(by_css(~s|#{@sidebar_toggle}[aria-expanded="false"]|) |> Expect.count(1))
     end
   end
