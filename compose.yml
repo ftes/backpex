@@ -14,7 +14,6 @@ services:
       - STARTUP_COMMAND_5=cd .. && mix deps.get && bun install --frozen-lockfile && cd demo
     volumes:
       - .:/opt/app
-      - ${FLUFFY_PATH:-../fluffy}:/opt/fluffy
       - playwright-cache:/root/.cache/ms-playwright
     ports:
       - 4000:4000
