@@ -113,15 +113,15 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
 
       session
       |> visit(~p"/admin/posts")
-      |> expect(by_css("body .phx-connected") |> Expect.count(1))
-      |> expect(by_css(~s|#{@blog_toggle}[aria-expanded="true"]|) |> Expect.count(1))
+      |> assert(by_css("body .phx-connected") |> count(1))
+      |> assert(by_css(~s|#{@blog_toggle}[aria-expanded="true"]|) |> count(1))
       |> assert_a11y()
       |> click(by_css(@blog_toggle))
-      |> expect(by_css(~s|#{@blog_toggle}[aria-expanded="false"]|) |> Expect.count(1))
+      |> assert(by_css(~s|#{@blog_toggle}[aria-expanded="false"]|) |> count(1))
       |> assert_a11y()
       |> click(by_css(~s|a[href="/admin/invoices"]|))
-      |> expect(Fluffy.Page.to_have_url("/admin/invoices"))
-      |> expect(by_css(~s|#{@blog_toggle}[aria-expanded="false"]|) |> Expect.count(1))
+      |> assert(page_url("/admin/invoices"))
+      |> assert(by_css(~s|#{@blog_toggle}[aria-expanded="false"]|) |> count(1))
     end
   end
 
@@ -135,18 +135,18 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
 
       session
       |> visit(~p"/admin/posts")
-      |> expect(by_css("body .phx-connected") |> Expect.count(1))
-      |> expect(by_css(~s|#{@sidebar_toggle}[aria-expanded="true"]|) |> Expect.count(1))
+      |> assert(by_css("body .phx-connected") |> count(1))
+      |> assert(by_css(~s|#{@sidebar_toggle}[aria-expanded="true"]|) |> count(1))
       |> assert_a11y()
       |> click(by_css(@sidebar_toggle))
-      |> expect(by_css(~s|#{@sidebar_toggle}[aria-expanded="false"]|) |> Expect.count(1))
+      |> assert(by_css(~s|#{@sidebar_toggle}[aria-expanded="false"]|) |> count(1))
       |> assert_a11y()
       |> then(fn session ->
         Fluffy.Playwright.evaluate(session, ~s|document.querySelector('a[href="/admin/invoices"]').click()|)
         session
       end)
-      |> expect(Fluffy.Page.to_have_url("/admin/invoices"))
-      |> expect(by_css(~s|#{@sidebar_toggle}[aria-expanded="false"]|) |> Expect.count(1))
+      |> assert(page_url("/admin/invoices"))
+      |> assert(by_css(~s|#{@sidebar_toggle}[aria-expanded="false"]|) |> count(1))
     end
   end
 
@@ -156,7 +156,7 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
 
       session
       |> visit(~p"/admin/posts")
-      |> expect(by_css("body .phx-connected") |> Expect.count(1))
+      |> assert(by_css("body .phx-connected") |> count(1))
       |> then(fn session ->
         display =
           Fluffy.Playwright.evaluate(
@@ -217,7 +217,7 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
 
       session
       |> visit(~p"/admin/posts")
-      |> expect(by_css("body .phx-connected") |> Expect.count(1))
+      |> assert(by_css("body .phx-connected") |> count(1))
       |> then(fn session ->
         Fluffy.Playwright.evaluate(session, @install_preference_gate, is_function: true)
         session
@@ -294,9 +294,9 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
         session
       end)
       |> visit(~p"/admin/posts")
-      |> expect(by_css("body .phx-connected") |> Expect.count(1))
-      |> expect(by_css(~s|#backpex-app-shell[data-sidebar-open="false"]|) |> Expect.count(1))
-      |> expect(by_css(~s|[data-section-id="blog"][data-section-open="false"]|) |> Expect.count(1))
+      |> assert(by_css("body .phx-connected") |> count(1))
+      |> assert(by_css(~s|#backpex-app-shell[data-sidebar-open="false"]|) |> count(1))
+      |> assert(by_css(~s|[data-section-id="blog"][data-section-open="false"]|) |> count(1))
     end
 
     test "persists the latest intent when the same key changes during a request" do
@@ -304,7 +304,7 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
 
       session
       |> visit(~p"/admin/posts")
-      |> expect(by_css("body .phx-connected") |> Expect.count(1))
+      |> assert(by_css("body .phx-connected") |> count(1))
       |> then(fn session ->
         Fluffy.Playwright.evaluate(session, @install_preference_gate, is_function: true)
         session
@@ -376,8 +376,8 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
         session
       end)
       |> visit(~p"/admin/posts")
-      |> expect(by_css("body .phx-connected") |> Expect.count(1))
-      |> expect(by_css(~s|html[data-theme="cupcake"]|) |> Expect.count(1))
+      |> assert(by_css("body .phx-connected") |> count(1))
+      |> assert(by_css(~s|html[data-theme="cupcake"]|) |> count(1))
       |> then(fn session ->
         checked? =
           Fluffy.Playwright.evaluate(
@@ -413,7 +413,7 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
 
       session
       |> visit(~p"/admin/posts")
-      |> expect(by_css("body .phx-connected") |> Expect.count(1))
+      |> assert(by_css("body .phx-connected") |> count(1))
       |> then(fn session ->
         Fluffy.Playwright.evaluate(session, @install_preference_gate, is_function: true)
         session
@@ -487,10 +487,10 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
         session
       end)
       |> visit(~p"/admin/posts")
-      |> expect(by_css("body .phx-connected") |> Expect.count(1))
-      |> expect(by_css(~s|html[data-theme="dark"]|) |> Expect.count(1))
-      |> expect(by_css(~s|#backpex-app-shell[data-sidebar-open="true"]|) |> Expect.count(1))
-      |> expect(by_css(~s|[data-section-id="blog"][data-section-open="false"]|) |> Expect.count(1))
+      |> assert(by_css("body .phx-connected") |> count(1))
+      |> assert(by_css(~s|html[data-theme="dark"]|) |> count(1))
+      |> assert(by_css(~s|#backpex-app-shell[data-sidebar-open="true"]|) |> count(1))
+      |> assert(by_css(~s|[data-section-id="blog"][data-section-open="false"]|) |> count(1))
     end
   end
 
@@ -553,14 +553,14 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
 
       session
       |> visit(~p"/admin/posts")
-      |> expect(by_css("body .phx-connected") |> Expect.count(1))
-      |> expect(by_css(~s|#{@sidebar_toggle}[aria-expanded="true"]|) |> Expect.count(1))
+      |> assert(by_css("body .phx-connected") |> count(1))
+      |> assert(by_css(~s|#{@sidebar_toggle}[aria-expanded="true"]|) |> count(1))
       |> then(fn session ->
         Fluffy.Playwright.evaluate(session, @stall_preferences, is_function: true)
         session
       end)
       |> click(by_css(@sidebar_toggle))
-      |> expect(by_css(~s|#{@sidebar_toggle}[aria-expanded="false"]|) |> Expect.count(1))
+      |> assert(by_css(~s|#{@sidebar_toggle}[aria-expanded="false"]|) |> count(1))
       # (a) The write is in the cookie, synchronously, before any round trip.
       |> then(fn session ->
         cookie = Fluffy.Playwright.evaluate(session, "document.cookie")
@@ -586,13 +586,13 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
       # painted. The stalled `fetch` stub dies with the old document, so the
       # reloaded page replays the pending write for real.
       |> visit(~p"/admin/posts")
-      |> expect(by_css("body .phx-connected") |> Expect.count(1))
+      |> assert(by_css("body .phx-connected") |> count(1))
       # (c) It lands closed and STAYS closed. Before the fix the hook re-asserted
       # its mount-time `desktopOpen` through the higher-specificity
       # `data-[state]` classes and the page ended up open.
-      |> expect(by_css(~s|#{@sidebar_toggle}[aria-expanded="false"]|) |> Expect.count(1))
-      |> expect(by_css(~s|#backpex-sidebar[data-state="closed"]|) |> Expect.count(1))
-      |> expect(by_css(~s|#backpex-main[data-shift="off"]|) |> Expect.count(1))
+      |> assert(by_css(~s|#{@sidebar_toggle}[aria-expanded="false"]|) |> count(1))
+      |> assert(by_css(~s|#backpex-sidebar[data-state="closed"]|) |> count(1))
+      |> assert(by_css(~s|#backpex-main[data-shift="off"]|) |> count(1))
       |> assert_a11y()
       # (d) The pending entry retires on the replay's response: the cookie holds
       # unacknowledged writes only and cannot shadow the adapter.
@@ -633,12 +633,12 @@ defmodule DemoWeb.Browser.SidebarBrowserTest do
 
       session
       |> visit(~p"/admin/addresses")
-      |> expect(by_css("body .phx-connected") |> Expect.count(1))
-      |> expect(by_css(~s|#backpex-sidebar:not([data-suppress-transition])|) |> Expect.count(1))
+      |> assert(by_css("body .phx-connected") |> count(1))
+      |> assert(by_css(~s|#backpex-sidebar:not([data-suppress-transition])|) |> count(1))
       # Sorting re-renders the shell in place, without re-mounting the hook.
       |> click(by_css(~s|thead a[href*="order_by=street"]|))
-      |> expect(by_css(~s|#backpex-sidebar:not([data-suppress-transition])|) |> Expect.count(1))
-      |> expect(by_css(~s|#backpex-main:not([data-suppress-transition])|) |> Expect.count(1))
+      |> assert(by_css(~s|#backpex-sidebar:not([data-suppress-transition])|) |> count(1))
+      |> assert(by_css(~s|#backpex-main:not([data-suppress-transition])|) |> count(1))
     end
   end
 

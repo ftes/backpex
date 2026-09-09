@@ -11,11 +11,10 @@ defmodule DemoWeb.FluffyCase do
   using do
     quote do
       use DemoWeb, :verified_routes
+      use Fluffy.Assert
 
       import Fluffy
       import Fluffy.Locator
-
-      alias Fluffy.Expect
 
       def start_browser_session(options \\ []) do
         defaults = [base_url: DemoWeb.Endpoint.url(), endpoint: DemoWeb.Endpoint]
